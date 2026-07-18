@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.svg" type="image/x-icon" />
+    <title>Torvan | Projects</title>
+    <link rel="stylesheet" href="../style/main.css" />
+    <script src="../scripts/script.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <h1 class="logo">Torvan</h1>
+                    <ul class="nav-links">
+                        <li><a href="../index.html#about">About</a></li>
+                        <li><a href="#">Projects</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme">
+                        <img src="/assets/dark-mode.svg" alt="Dark mode" id="theme-icon" width="20px" height="20px" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero alt">
+            <div class="container">
+                <p class="eyebrow">Projects</p>
+                <h2>My projects</h2>
+                <p class="hero-text">
+                    Here are some of the projects I've worked on. I enjoy tinkering with different technologies and
+                    frameworks, so the projects are quite varied.
+                </p>
+            </div>
+        </section>
+
+        <section id="bl00m" class="section">
+            <div class="container">
+                <h2>bl00m</h2>
+                <p>
+                    Artificial flower that opens when it detects light. Powered by Raspberry Pi Pico, it is a clean and
+                    complete design, with natural look. The assembly is also easily accessible, and offers a high degree
+                    of modularity. Read more about the materials required and the development process <a
+                        href="https://github.com/torwanat/bl00m" target="_blank" rel="noopener noreferrer">here</a>.
+                </p>
+                <div class="projects-grid">
+                    <article class="card">
+                        <img src="../assets/bl00m.jpg" alt="bl00m" class="project-image" />
+                    </article>
+                    <article class="card">
+                        <img src="../assets/bl00m_alternative.jpeg" alt="bl00m" class="project-image" />
+                    </article>
+                    <article class="card">
+                        <img src="../assets/bl00m_internal.jpeg" alt="bl00m" class="project-image" />
+                    </article>
+                </div>
+            </div>
+            <section id="chinese-game" class="section alt">
+                <div class="container">
+                    <h2>Chinese Game</h2>
+                    <p>
+                        Chinese game written in Angular with PHP backend. Play the classic tabletop game with 2 - 4
+                        players. Includes automatic matchmaking, multi langauge support and more. Read more about it <a
+                            href="https://github.com/torwanat/chinese-game" target="_blank"
+                            rel="noopener noreferrer">here</a>, or play it online at <a href="https://chinese.torvan.eu"
+                            target="_blank" rel="noopener noreferrer">chinese.torvan.eu</a>.
+                    </p>
+                </div>
+            </section>
+            <section id="tictactoe-app" class="section">
+                <div class="container">
+                    <h2>Tic Tac Toe app</h2>
+                    <p>
+                        Mobile app for playing Tic Tac Toe, both locally and online. Available game modes: local PvP,
+                        local PvE and online multiplayer. Multiplayer works with automatic matchmaking built with
+                        Firebase. An older app, but still quite cool. Read more about it <a
+                            href="./projects/index.html#tictactoe-app" target="_blank"
+                            rel="noopener noreferrer">here</a>.
+                    </p>
+                </div>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>

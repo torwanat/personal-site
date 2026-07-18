@@ -168,12 +168,20 @@ a:hover {
     margin-top: 1.5rem;
 }
 
+.project-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
 .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1rem;
     box-shadow: var(--shadow);
+    height: fit-content;
+    margin-bottom: 1rem;
 }
 
 .card h3 {
