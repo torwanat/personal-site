@@ -1,1 +1,1 @@
-Just a site
+Just a site with my projects, portfolio and all the other stuff I decide to put there. Feel welcome to visit it at [https://www.torvan.eu/](https://www.torvan.eu/)!
