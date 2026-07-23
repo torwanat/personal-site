@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = savedTheme || (systemDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                // if localStorage isn't available, just fall back to system preference
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.svg" type="image/x-icon" />
+    <title>Torvan | bl00m - Artifical Flower</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <script src="/scripts/script.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <h1 class="logo">Torvan</h1>
+                    <ul class="nav-links">
+                        <li><a href="/index.html">About</a></li>
+                        <li><a href="/projects/index.html">Projects</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme">
+                        <img src="/assets/dark-mode.svg" alt="Dark mode" id="theme-icon" width="20px" height="20px" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>bl00m - an artificial flower that opens when it detects light.</h2>
+                <p class="hero-text">
+                    Powered by Raspberry Pi Pico and built with 3D-printed components, it offers a clean and complete
+                    design with a natural look. The assembly is easily accessible and highly modular.
+                </p>
+                <div>
+                    <img src="/assets/bl00m.jpg" alt="bl00m flower" class="project-hero-image" />
+                </div>
+                <a href="/projects/index.html" class="button">Back to projects overview</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Overview</h2>
+                <p>
+                    bl00m is a result of group work involving mechanical design, electronics and programming. The flower
+                    opens and closes based on light intensity, which it detects with a sensor. The Raspberry Pi Pico
+                    microcontroller reads the sensor values and moves the servo motor accordingly. The design of the
+                    flower is modular, allowing for simple assembly and maintenance. It also allows easy access to the
+                    internal components, including batteries and a hidden on/off switch. The petals can be easily
+                    unscrewed and replaced or adjusted. From outside, the flower looks natural and elegant, with a
+                    smooth opening and closing motion.
+                </p>
+                <br>
+                <ul>
+                    <li><strong>Areas:</strong> 3D design, Electronics, Embedded Programming</li>
+                    <li><strong>Tech:</strong> Raspberry Pi Pico, C, 3D Printing, Laser Cutting</li>
+                    <li><strong>Status:</strong> On display at <a href="https://www.oulu.fi/en/university/fab-lab-oulu"
+                            target="_blank" rel="noopener noreferrer">Fab Lab Oulu</a> </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Tech stack and architecture</h2>
+                <p>
+                    The project runs on a Raspberry Pi Pico that reads values from a photoresistor and drives a servo
+                    that controls the petals. Since the sensor readings are analog, they are converted to digital values
+                    using the Pico's ADC. The resulting voltage level is then checked against set thresholds, and if a
+                    change is detected, the servo is moved to the corresponding angle. The servo operates a pulley
+                    system, which connects it to the bud using nylon strings running through the stem. A simple spring
+                    mechanism located in the bud ensures that the petals return to the correct position when tension is
+                    released. The whole system is powered by a small batter pack, which is hidden inside the pot. Thanks
+                    to the design, it is easy to take out the whole flower assembly and acess it and the internal
+                    electronics. The exterior is hand painted to look natural, with petals being made from farbed
+                    textile. This combined with the use of a real flower pot gives the whole assembly a natural and
+                    elegant look.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="card">
+                        <h3>Hardware</h3>
+                        <ul>
+                            <li>Raspberry Pi Pico</li>
+                            <li>Servo motor</li>
+                            <li>Photoresistor (light sensor)</li>
+                            <li>Breadboard</li>
+                            <li>3D-printed components (PLA)</li>
+                            <li>Laser-cut parts (MDF)</li>
+                            <li>Nylon strings</li>
+                            <li>Full bill of materials on <a href="https://github.com/torwanat/bl00m" target="_blank"
+                                    rel="noopener noreferrer">github</a></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Firmware</h3>
+                        <p>
+                            C code running on the Raspberry Pi Pico, reading analog sensor values, converting them to
+                            digital, and controlling the servo. It also stores the current state in memory, to ensure
+                            continuity in case of power loss. Full code available on <a
+                                href="https://github.com/torwanat/bl00m" target="_blank"
+                                rel="noopener noreferrer">github</a>.
+                        </p>
+                    </div>
+                    <div class=" card">
+                        <h3>Tools</h3>
+                        <ul>
+                            <li>3D modeling: SolidWorks</li>
+                            <li>3D printing: Prusa MK4S / Core One L / Core One+</li>
+                            <li>Laser cutting: Epilog Laser Fusion</li>
+                            <li>Electronics prototyping: soldering iron, multimeter, oscilloscope</li>
+                            <li>Programming: VS Code, CMake toolchain</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Implementation details</h2>
+                <p>
+                    The implementation of the project involved overcoming several challenges, both mechanical and
+                    electronic.
+                </p>
+
+                <br>
+                <div>
+                    <h3>Bud mechanism</h3>
+                    <p>
+                        To ensure the petals return to their original position when the tension is released, a tension
+                        mechanism was put into the bud. Making it small enough to fit and not be visible proved to be a
+                        challenge, and several prototypes were tested before settling on the final design. To make the
+                        movement even smoother, moving parts were lubricated with a small amount of sewing machine oil.
+                        Final design can be found on <a
+                            href="https://github.com/torwanat/bl00m/blob/f48769b21525f4fb4e752ef2ff44142b1da702f7/CAD/Bud.stl"
+                            target="_blank" rel="noopener noreferrer">github</a>.
+                    </p>
+                </div>
+                <br>
+                <div>
+                    <h3>Storing state data</h3>
+                    <p>
+                        To ensure that the flower maintains its state even after a power loss, the current state is
+                        stored in memory. This allows the flower to resume its previous state when power is restored.
+                        The implementation uses the Raspberry Pi Pico's built-in flash memory to store the state data,
+                        picking a chunk of memory that is not used by the program itself. The state data is written to
+                        flash memory whenever a change in state is detected, and read from flash memory on startup to
+                        restore the previous state:
+                    </p>
+                    <pre>
+                        <code>
+                    void save_config(void) {
+                        // Prepare a 256-byte page buffer
+                        uint8_t page_buf[FLASH_PAGE_SIZE];
+                        memset(page_buf, 0xFF, FLASH_PAGE_SIZE);
+                        memcpy(page_buf, &current_cfg, sizeof(current_cfg));
+
+                        // Critical section: no interrupts during erase/program
+                        uint32_t ints = save_and_disable_interrupts();
+
+                        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
+                        flash_range_program(FLASH_TARGET_OFFSET, page_buf, FLASH_PAGE_SIZE);
+
+                        restore_interrupts(ints);
+                    }
+                        </code>
+                    </pre>
+                    <p>Full code can be found on<a
+                            href="https://github.com/torwanat/bl00m/blob/f48769b21525f4fb4e752ef2ff44142b1da702f7/bl00m-pico/bl00m-pico.c"
+                            target="_blank" rel="noopener noreferrer"> github</a>.</p>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Sensor calibration</h3>
+                    <p>
+                        Since the photoresistor is an analog sensor, a simple circuit had to be created to convert the
+                        analog signal to a digital one and make sure the voltage levels are within the expected range.
+                        This was achieved using a simple resistor and Pico's built-in ADC. The sensor was calibrated to
+                        ensure that the flower opens and closes at the desired light intensity levels. Several tests
+                        were conducted to determine the optimal resistor value and threshold levels for the ADC
+                        readings. The final design diagram can be found below and on <a
+                            href="https://github.com/torwanat/bl00m" target="_blank" rel="noopener noreferrer"> github
+                        </a>.
+                    </p>
+                    <img src="/assets/bl00m_circuit.jpg" alt="bl00m circuit diagram" class="project-hero-image" />
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>What I learned</h2>
+                <p>
+                    The project was a great learning experience, as it involved both mechanical and programming aspects.
+                    I learned many useful skills, not only about 3D design, but also laser cutting, electronics, embeded
+                    programing and circuit design. I also improved my teamwork and communication skills, as the project
+                    was a group effort. Overall, it was a great opportunity to learn and apply new skills in a practical
+                    setting and I am very satisfied with the outcome.
+                </p>
+            </div>
+        </section>
+
+        <!-- Links -->
+        <section class="section alt">
+            <div class="container">
+                <h2>Links and resources</h2>
+                <p>
+                    If you'd like to see the code and hardware details, you can explore the repository and the
+                    related write-up.
+                </p>
+                <br>
+                <a href="https://github.com/torwanat/bl00m" class="button" target="_blank" rel="noopener noreferrer">
+                    View code on github
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Email: <a href="mailto:nawrotm@proton.me">nawrotm@proton.me</a></p>
+            <p>
+                GitHub: <a href="https://github.com/torwanat" target="_blank" rel="noopener noreferrer">
+                    github.com/torwanat
+                </a>
+            </p>
+            <p>
+                LinkedIn: <a href="https://linkedin.com/in/mnawrot" target="_blank" rel="noopener noreferrer">
+                    linkedin.com/in/mnawrot
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
