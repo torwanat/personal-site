@@ -57,7 +57,7 @@
                     language support and more.
                 </p>
                 <div>
-                    <img src="/assets/chinese_hero.png" alt="bl00m flower" class="project-hero-image" />
+                    <img src="/assets/chinese_hero.png" alt="Chinese Game" class="project-hero-image" />
                 </div>
                 <a href="/projects/index.html" class="button">Back to projects overview</a>
             </div>
@@ -67,15 +67,22 @@
             <div class="container">
                 <h2>Overview</h2>
                 <p>
-                    TBD
+                    This implementation of the classic board game, sometimes known as "Ludo" or "Mensch ärgere dich
+                    nicht" is a web-based multiplayer game that allows 2 - 4 players to compete against each other
+                    online. The game features a simple and user-friendly interface, real-time gameplay, and support for
+                    both Polish and English language. Players are automatically added to open lobbies, and a game starts
+                    as soon as everyone is ready or the lobby is full. During the game, players have 60 seconds to play
+                    their turn, or they will be skipped. Players session is automatically saved, so they can return to
+                    the game later if they need to leave. To win the game, a player must move all of their pieces from
+                    the starting area to the home area before their opponents do.
                 </p>
                 <br>
-                <!-- <ul>
-                    <li><strong>Areas:</strong> 3D design, Electronics, Embedded Programming</li>
-                    <li><strong>Tech:</strong> Raspberry Pi Pico, C, 3D Printing, Laser Cutting</li>
-                    <li><strong>Status:</strong> On display at <a href="https://www.oulu.fi/en/university/fab-lab-oulu"
-                            target="_blank" rel="noopener noreferrer">Fab Lab Oulu</a> </li>
-                </ul> -->
+                <ul>
+                    <li><strong>Areas:</strong> Web Development, Full Stack Development, Containerization</li>
+                    <li><strong>Tech:</strong> Angular, TypeScript, PHP, MariaDB, Docker</li>
+                    <li><strong>Status:</strong> Can be played at <a href="https://chinese.torvan.eu/" target="_blank"
+                            rel="noopener noreferrer">https://chinese.torvan.eu/</a> </li>
+                </ul>
             </div>
         </section>
 
@@ -83,45 +90,40 @@
             <div class="container">
                 <h2>Tech stack and architecture</h2>
                 <p>
-                    TBD
+                    The project is a full-stack web application built using Angular for the frontend, PHP for the
+                    backend, and MariaDB for the database. The application is containerized using Docker, allowing for
+                    easy deployment. The architecture follows a client-server model, with the frontend
+                    communicating with the backend via RESTful APIs. The backend handles game logic, user
+                    authentication, and database interactions, while the frontend provides a responsive and interactive
+                    user interface for players to enjoy the game.
                 </p>
 
-                <!-- <div class="projects-grid">
+                <div class="projects-grid">
                     <div class="card">
-                        <h3>Hardware</h3>
+                        <h3>Backend</h3>
                         <ul>
-                            <li>Raspberry Pi Pico</li>
-                            <li>Servo motor</li>
-                            <li>Photoresistor (light sensor)</li>
-                            <li>Breadboard</li>
-                            <li>3D-printed components (PLA)</li>
-                            <li>Laser-cut parts (MDF)</li>
-                            <li>Nylon strings</li>
-                            <li>Full bill of materials on <a href="https://github.com/torwanat/bl00m" target="_blank"
-                                    rel="noopener noreferrer">github</a></li>
+                            <li>PHP</li>
+                            <li>Gettext</li>
+                            <li>MariaDB</li>
                         </ul>
                     </div>
                     <div class="card">
-                        <h3>Firmware</h3>
-                        <p>
-                            C code running on the Raspberry Pi Pico, reading analog sensor values, converting them to
-                            digital, and controlling the servo. It also stores the current state in memory, to ensure
-                            continuity in case of power loss. Full code available on <a
-                                href="https://github.com/torwanat/bl00m" target="_blank"
-                                rel="noopener noreferrer">github</a>.
-                        </p>
+                        <h3>Frontend</h3>
+                        <ul>
+                            <li>Angular</li>
+                            <li>TypeScript</li>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                        </ul>
                     </div>
                     <div class=" card">
-                        <h3>Tools</h3>
+                        <h3>Containerization</h3>
                         <ul>
-                            <li>3D modeling: SolidWorks</li>
-                            <li>3D printing: Prusa MK4S / Core One L / Core One+</li>
-                            <li>Laser cutting: Epilog Laser Fusion</li>
-                            <li>Electronics prototyping: soldering iron, multimeter, oscilloscope</li>
-                            <li>Programming: VS Code, CMake toolchain</li>
+                            <li>Docker</li>
+                            <li>Docker Compose</li>
                         </ul>
                     </div>
-                </div> -->
+                </div>
             </div>
         </section>
 
@@ -129,72 +131,44 @@
             <div class="container">
                 <h2>Implementation details</h2>
                 <p>
-                    TBD
+                    The implementation of the game involved overcoming several technical challenges.
                 </p>
 
                 <br>
-                <!-- <div>
-                    <h3>Bud mechanism</h3>
+                <div>
+                    <h3>Translation</h3>
                     <p>
-                        To ensure the petals return to their original position when the tension is released, a tension
-                        mechanism was put into the bud. Making it small enough to fit and not be visible proved to be a
-                        challenge, and several prototypes were tested before settling on the final design. To make the
-                        movement even smoother, moving parts were lubricated with a small amount of sewing machine oil.
-                        Final design can be found on <a
-                            href="https://github.com/torwanat/bl00m/blob/f48769b21525f4fb4e752ef2ff44142b1da702f7/CAD/Bud.stl"
-                            target="_blank" rel="noopener noreferrer">github</a>.
+                        To provide a seemless experience for players in different languages, the game was designed to
+                        support multiple languages. The implementation uses the Gettext library for PHP to handle
+                        translations on the backend, while Angular's built-in i18n support is used for the frontend.
+                        This allows for easy addition of new languages and ensures that all text in the game is properly
+                        translated based on the user's language preference.
                     </p>
                 </div>
                 <br>
                 <div>
-                    <h3>Storing state data</h3>
+                    <h3>Remembering users session</h3>
                     <p>
-                        To ensure that the flower maintains its state even after a power loss, the current state is
-                        stored in memory. This allows the flower to resume its previous state when power is restored.
-                        The implementation uses the Raspberry Pi Pico's built-in flash memory to store the state data,
-                        picking a chunk of memory that is not used by the program itself. The state data is written to
-                        flash memory whenever a change in state is detected, and read from flash memory on startup to
-                        restore the previous state:
+                        To enhance the user experience, the game was designed to remember users' sessions. This means
+                        that if a player leaves the game and returns later, they can pick up where they left off without
+                        losing their progress. This was achieved by storing session data in the database and using
+                        cookies to identify returning players. When a player returns to the game, their session data is
+                        retrieved from the database, allowing them to continue playing seamlessly.
                     </p>
-                    <pre>
-                        <code>
-                    void save_config(void) {
-                        // Prepare a 256-byte page buffer
-                        uint8_t page_buf[FLASH_PAGE_SIZE];
-                        memset(page_buf, 0xFF, FLASH_PAGE_SIZE);
-                        memcpy(page_buf, &current_cfg, sizeof(current_cfg));
-
-                        // Critical section: no interrupts during erase/program
-                        uint32_t ints = save_and_disable_interrupts();
-
-                        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-                        flash_range_program(FLASH_TARGET_OFFSET, page_buf, FLASH_PAGE_SIZE);
-
-                        restore_interrupts(ints);
-                    }
-                        </code>
-                    </pre>
-                    <p>Full code can be found on<a
-                            href="https://github.com/torwanat/bl00m/blob/f48769b21525f4fb4e752ef2ff44142b1da702f7/bl00m-pico/bl00m-pico.c"
-                            target="_blank" rel="noopener noreferrer"> github</a>.</p>
                 </div>
 
                 <br>
 
                 <div>
-                    <h3>Sensor calibration</h3>
+                    <h3>Containerization</h3>
                     <p>
-                        Since the photoresistor is an analog sensor, a simple circuit had to be created to convert the
-                        analog signal to a digital one and make sure the voltage levels are within the expected range.
-                        This was achieved using a simple resistor and Pico's built-in ADC. The sensor was calibrated to
-                        ensure that the flower opens and closes at the desired light intensity levels. Several tests
-                        were conducted to determine the optimal resistor value and threshold levels for the ADC
-                        readings. The final design diagram can be found below and on <a
-                            href="https://github.com/torwanat/bl00m" target="_blank" rel="noopener noreferrer"> github
-                        </a>.
+                        To simplify deployment and ensure consistency across different environments, the game was
+                        containerized using Docker. This allows the entire application, including the frontend, backend,
+                        and database, to be packaged into containers that can be easily deployed with Docker Compose.
+                        This approach also makes it easier to manage dependencies and ensures that
+                        the application runs consistently across different environments.
                     </p>
-                    <img src="/assets/bl00m_circuit.jpg" alt="bl00m circuit diagram" class="project-hero-image" />
-                </div> -->
+                </div>
             </div>
         </section>
 
@@ -202,7 +176,11 @@
             <div class="container">
                 <h2>What I learned</h2>
                 <p>
-                    TBD
+                    This project provided valuable experience in full-stack web development, including working with
+                    Angular, PHP, and MariaDB. I gained a deeper understanding of containerization with Docker and how
+                    to deploy applications using Docker Compose. Additionally, I learned about implementing
+                    internationalization and session management in web applications. Overall, this project helped me
+                    improve my skills in building scalable and user-friendly web applications.
                 </p>
             </div>
         </section>
