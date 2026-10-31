@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = savedTheme || (systemDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                // if localStorage isn't available, just fall back to system preference
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.svg" type="image/x-icon" />
+    <title>Torvan | Weather Server</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <script src="/scripts/script.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <h1 class="logo">Torvan</h1>
+                    <ul class="nav-links">
+                        <li><a href="/index.html">About</a></li>
+                        <li><a href="/projects/index.html">Projects</a></li>
+                        <li><a href="https://chinese.torvan.eu" target="_blank" rel="noopener noreferrer">Chinese
+                                Game</a></li>
+                        <li><a href="https://y86.torvan.eu" target="_blank" rel="noopener noreferrer">y86 Simulator</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme">
+                        <img src="/assets/dark-mode.svg" alt="Dark mode" id="theme-icon" width="20px" height="20px" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Weather Server - secure backend for weather observations</h2>
+                <p class="hero-text">
+                    A Java-based HTTPS server designed to receive, store, and manage weather observation data for a
+                    university Programming 3 assignment. The server exposes a small REST-like API over TLS, handles user
+                    registration and authentication, and persists data via a dedicated database layer.
+                </p>
+                <a href="/projects/index.html" class="button">Back to projects overview</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Overview</h2>
+                <p>
+                    The weather server is a backend-focused project that implements a secure HTTPS server listening on
+                    port 8001 and using a Java KeyStore (JKS) certificate for TLS. It provides endpoints for
+                    user registration, authenticated submission of weather data records, and management of collections
+                    of observations. The project follows the standard Maven project structure and builds on top of the
+                    Programming 3 course template.
+                </p>
+                <br>
+                <ul>
+                    <li><strong>Areas:</strong> Backend Development, Networking, Security, Java</li>
+                    <li><strong>Tech:</strong> Java, Maven, com.sun.net.httpserver, TLS/SSL, JKS, Logback/SLF4J</li>
+                    <li><strong>Status:</strong> Course project - source code available on GitHub</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Tech stack and architecture</h2>
+                <p>
+                    The project is implemented as a standalone Java application using the built-in
+                    <code>com.sun.net.httpserver</code> APIs to provide HTTPS endpoints. TLS is configured with a
+                    JKS keystore and standard <code>javax.net.ssl</code> components. The server exposes contexts for
+                    registration, data records, and collections, each handled by dedicated classes. A database layer
+                    encapsulates persistence for users, collections, and observation data, while Logback and SLF4J are
+                    used for structured logging.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="card">
+                        <h3>Server core</h3>
+                        <ul>
+                            <li>Java</li>
+                            <li>com.sun.net.httpserver</li>
+                            <li>HTTPS (TLS)</li>
+                            <li>JKS keystore</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Data & domain</h3>
+                        <ul>
+                            <li>ServerDatabase</li>
+                            <li>User model</li>
+                            <li>Observations domain classes</li>
+                            <li>Collections of records</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Tooling & logging</h3>
+                        <ul>
+                            <li>Maven</li>
+                            <li>Logback</li>
+                            <li>SLF4J</li>
+                            <li>Java KeyStore (JKS)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Implementation details</h2>
+                <p>
+                    The implementation focuses on correctly wiring HTTPS, authentication, and data handling in a clean
+                    Java architecture. Below are some of the key technical aspects of the project.
+                </p>
+
+                <br>
+                <div>
+                    <h3>HTTPS configuration</h3>
+                    <p>
+                        At startup, the server loads a JKS keystore and initializes key and trust managers using standard
+                        Java security APIs. An <code>SSLContext</code> is configured and attached to the
+                        <code>HttpsServer</code>, ensuring all communication occurs over TLS. This required careful
+                        handling of keystore paths, passwords, and certificate loading, as well as robust error logging
+                        for common failure modes such as missing certificates or binding issues.
+                    </p>
+                </div>
+                <br>
+                <div>
+                    <h3>User authentication</h3>
+                    <p>
+                        The server uses a custom <code>UserAuthenticatorDB</code> to protect sensitive endpoints like
+                        <code>/datarecord</code> and <code>/collections</code>. Users are registered via a
+                        dedicated <code>/registration</code> context and stored in the database. Once registered, they
+                        must authenticate before they can submit or query weather observations or manage collections,
+                        enforcing a clear separation between public and protected functionality.
+                    </p>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Database layer</h3>
+                    <p>
+                        The <code>ServerDatabase</code> class encapsulates all persistence logic for users, collections,
+                        and observation data. This separation keeps HTTP handling and business logic focused and
+                        makes it easier to change or extend the storage mechanism. The domain model, including the
+                        <code>User</code> class and observation-related classes in the <code>observations</code> package,
+                        reflects the core entities of the system.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>What I learned</h2>
+                <p>
+                    This project provided hands-on experience with building an HTTPS server in Java, including working
+                    with TLS, keystores, and low-level networking APIs. I gained a deeper understanding of authenticating
+                    users at the HTTP server level, structuring handler classes for different endpoints, and designing a
+                    small but cohesive domain and persistence layer. Additionally, the project improved my skills in
+                    error handling and logging for production-like backend services.
+                </p>
+            </div>
+        </section>
+
+        <!-- Links -->
+        <section class="section alt">
+            <div class="container">
+                <h2>Links and resources</h2>
+                <p>
+                    If you'd like to see the code and full implementation details, you can explore the GitHub
+                    repository and the accompanying README describing the architecture and features.
+                </p>
+                <br>
+                <a href="https://github.com/torwanat/weather-server" class="button" target="_blank"
+                    rel="noopener noreferrer">
+                    View weather-server code on GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Email: <a href="mailto:nawrotm@proton.me">nawrotm@proton.me</a></p>
+            <p>
+                GitHub: <a href="https://github.com/torwanat" target="_blank" rel="noopener noreferrer">
+                    github.com/torwanat
+                </a>
+            </p>
+            <p>
+                LinkedIn: <a href="https://linkedin.com/in/mnawrot" target="_blank" rel="noopener noreferrer">
+                    linkedin.com/in/mnawrot
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
