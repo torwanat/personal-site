@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = savedTheme || (systemDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                // if localStorage isn't available, just fall back to system preference
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.svg" type="image/x-icon" />
+    <title>Torvan | Recording App</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <script src="/scripts/script.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <h1 class="logo">
+                        <a href="/" class="plain-link"> Torvan </a>
+                    </h1>
+                    <ul class="nav-links">
+                        <li><a href="/">About</a></li>
+                        <li><a href="/projects/">Projects</a></li>
+                        <li><a href="https://chinese.torvan.eu" target="_blank" rel="noopener noreferrer">Chinese
+                                Game</a></li>
+                        <li><a href="https://y86.torvan.eu" target="_blank" rel="noopener noreferrer">y86 Simulator</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme">
+                        <img src="/assets/dark-mode.svg" alt="Dark mode" id="theme-icon" width="20px" height="20px" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Recording App - an Android app for audio recording, camera capture and photo management.</h2>
+                <p class="hero-text">
+                    Built with Kotlin and Jetpack Compose, the app demonstrates microphone recording, CameraX photo
+                    capture, and a gallery for viewing and deleting saved images.
+                </p>
+                <a href="/projects/" class="button">Back to projects overview</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Overview</h2>
+                <p>
+                    Recording App is a small Android application built with Kotlin and Jetpack Compose. It brings
+                    together three common mobile-device capabilities: recording and playing back audio through the
+                    microphone, capturing photos with the device camera, and browsing or deleting photos saved by the
+                    app. The interface is organized into three screens—Audio, Image, and Gallery—connected with Compose
+                    Navigation.
+                </p>
+                <br>
+                <ul>
+                    <li><strong>Areas:</strong> Android development, Mobile UI, Multimedia</li>
+                    <li><strong>Tech:</strong> Kotlin, Jetpack Compose, CameraX, MediaRecorder</li>
+                    <li><strong>Status:</strong> Active project on <a
+                            href="https://github.com/torwanat/recording-app" target="_blank"
+                            rel="noopener noreferrer">GitHub</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Tech stack and architecture</h2>
+                <p>
+                    The application follows an MVVM-style structure, using ViewModels and Kotlin StateFlow to keep UI
+                    state separate from screen composables. Navigation between the Audio, Image, and Gallery screens is
+                    handled with Jetpack Compose Navigation. Audio capture uses Android’s MediaRecorder, while playback
+                    uses MediaPlayer; camera functionality is implemented with AndroidX CameraX, and images are loaded
+                    in the gallery with Coil Compose.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="card">
+                        <h3>Audio recording</h3>
+                        <ul>
+                            <li>Request microphone permission</li>
+                            <li>Start and stop recording</li>
+                            <li>Play back the latest recording</li>
+                            <li>Show active recording or playback state</li>
+                            <li>Record to a temporary 3GP file using MediaRecorder</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Camera and gallery</h3>
+                        <p>
+                            The Image screen provides a live CameraX preview and captures photos with the rear camera.
+                            Captured JPEG images are saved to the device media store under
+                            <code>Pictures/RecordingApp</code>. The Gallery screen loads those images, displays them in
+                            a grid with Coil, and allows individual photos to be deleted.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h3>Tooling</h3>
+                        <ul>
+                            <li>Kotlin and Jetpack Compose with Material 3</li>
+                            <li>MVVM-style ViewModels and StateFlow</li>
+                            <li>Jetpack Compose Navigation</li>
+                            <li>AndroidX CameraX</li>
+                            <li>Gradle Kotlin DSL</li>
+                            <li>GitHub Actions for APK builds and releases</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Implementation details</h2>
+                <p>
+                    The project is structured around feature-focused packages, making the audio, camera, gallery, and
+                    navigation concerns easy to locate and maintain.
+                </p>
+
+                <br>
+                <div>
+                    <h3>Application structure</h3>
+                    <pre>
+                        <code>
+app/src/main/java/com/example/recordingapp/
+├── MainActivity.kt
+├── audio/
+│   ├── AudioScreen.kt
+│   └── AudioViewModel.kt
+├── gallery/
+│   ├── GalleryScreen.kt
+│   └── GalleryViewModel.kt
+├── image/
+│   ├── ImageCaptureHelper.kt
+│   ├── ImageScreen.kt
+│   └── ImageViewModel.kt
+├── navigation/
+│   ├── AppNavigation.kt
+│   └── Routes.kt
+└── ui/
+    └── theme/
+                        </code>
+                    </pre>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Permissions and compatibility</h3>
+                    <p>
+                        The app requests <code>RECORD_AUDIO</code> for microphone recording and <code>CAMERA</code> for
+                        the preview and photo capture. It targets Android 14 (API 34) or newer, with a minimum SDK of
+                        34 and target SDK of 36. A device with a camera and microphone is required for full
+                        functionality.
+                    </p>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Build and release automation</h3>
+                    <p>
+                        GitHub Actions builds a debug APK on pushes to <code>main</code>, pull requests targeting
+                        <code>main</code>, and manual workflow dispatch. Release APKs are built and signed through a
+                        separate workflow when a <code>v*</code> tag is pushed; signing credentials are supplied through
+                        GitHub Actions secrets rather than stored in the repository.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>What I learned</h2>
+                <p>
+                    This project provided practical experience with modern Android development, including Compose-based
+                    UI design, navigation, state management, runtime permissions, and multimedia APIs. It also covered
+                    integrating CameraX, MediaRecorder, MediaPlayer, and Coil, as well as automating Android builds and
+                    signed releases with GitHub Actions.
+                </p>
+            </div>
+        </section>
+
+        <!-- Links -->
+        <section class="section alt">
+            <div class="container">
+                <h2>Links and resources</h2>
+                <p>
+                    You can explore the source code, project structure, and build workflows in the repository.
+                </p>
+                <br>
+                <a href="https://github.com/torwanat/recording-app" class="button" target="_blank"
+                    rel="noopener noreferrer">
+                    View code on GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Email: <a href="mailto:nawrotm@proton.me">nawrotm@proton.me</a></p>
+            <p>
+                GitHub: <a href="https://github.com/torwanat" target="_blank" rel="noopener noreferrer">
+                    github.com/torwanat
+                </a>
+            </p>
+            <p>
+                LinkedIn: <a href="https://linkedin.com/in/mnawrot" target="_blank" rel="noopener noreferrer">
+                    linkedin.com/in/mnawrot
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
