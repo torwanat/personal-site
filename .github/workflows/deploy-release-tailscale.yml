@@ -37,4 +37,4 @@ jobs:
             --exclude ".github" \
             --exclude "README.md" \
             ./ \
-            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/html/
+            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/torvan.eu/public
