@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = savedTheme || (systemDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                // if localStorage isn't available, just fall back to system preference
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/icon.svg" type="image/x-icon" />
+    <title>Torvan | Morse Code Device</title>
+    <link rel="stylesheet" href="/style/main.css" />
+    <script src="/scripts/script.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <h1 class="logo">
+                        <a href="/" class="plain-link"> Torvan </a>
+                    </h1>
+                    <ul class="nav-links">
+                        <li><a href="/">About</a></li>
+                        <li><a href="/projects/">Projects</a></li>
+                        <li><a href="https://chinese.torvan.eu" target="_blank" rel="noopener noreferrer">Chinese
+                                Game</a></li>
+                        <li><a href="https://y86.torvan.eu" target="_blank" rel="noopener noreferrer">y86 Simulator</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme">
+                        <img src="/assets/dark-mode.svg" alt="Dark mode" id="theme-icon" width="20px" height="20px" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Morse Code Device - an embedded Morse-code input, playback and translation device.</h2>
+                <p class="hero-text">
+                    Built on a Raspberry Pi Pico with FreeRTOS, the device lets users enter Morse code with buttons,
+                    detects orientation with an IMU, and plays or translates messages through a buzzer, display, and
+                    USB serial connection.
+                </p>
+                <a href="/projects/" class="button">Back to projects overview</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Overview</h2>
+                <p>
+                    Morse Code Device is a group coursework project built around a Raspberry Pi Pico and FreeRTOS. The
+                    user enters dots and dashes with two physical buttons: the device determines whether a press should
+                    register as a dot or a dash based on its orientation, measured by an ICM-42670 IMU. Messages can be
+                    played through the buzzer, translated from Morse code to text, shown on the display, and sent over
+                    USB serial.
+                </p>
+                <br>
+                <ul>
+                    <li><strong>Areas:</strong> Embedded systems, RTOS programming, C, Human-device interaction</li>
+                    <li><strong>Tech:</strong> Raspberry Pi Pico, FreeRTOS, C, ICM-42670 IMU, buzzer, display</li>
+                    <li><strong>Team:</strong> Mikołaj Nawrot, Siemke Van Reyn, Matviy Starodubtsev</li>
+                    <li><strong>Status:</strong> Coursework project on <a
+                            href="https://github.com/MatStar15/computer-systems-project" target="_blank"
+                            rel="noopener noreferrer">GitHub</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Tech stack and architecture</h2>
+                <p>
+                    The firmware is written in C and uses FreeRTOS to separate concerns into concurrent tasks: IMU
+                    reading, button handling, USB transmission, USB command reception, and menu display. GPIO interrupts
+                    capture button presses, while shared state variables and message buffers coordinate communication
+                    between tasks. The Pico SDK provides access to the TKJHAT peripherals, including the display,
+                    buzzer, LED, buttons, and IMU.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="card">
+                        <h3>Morse input</h3>
+                        <ul>
+                            <li>Button 1 adds a dot or dash</li>
+                            <li>IMU orientation selects dot versus dash</li>
+                            <li>Button 2 inserts a space</li>
+                            <li>Three spaces mark the end of a message</li>
+                            <li>Buzzer gives audible feedback for each input</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Translation and output</h3>
+                        <p>
+                            Morse sequences are decoded using a binary-tree-style lookup table. Completed messages can be
+                            printed as Morse code and translated text over USB serial, displayed as text on the LCD, and
+                            replayed through the buzzer with distinct tones and timing for dots, dashes, and spaces.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h3>Extras</h3>
+                        <ul>
+                            <li>USB commands: <code>/led</code>, <code>/buzzer</code>, <code>/clear</code>, and <code>/play</code></li>
+                            <li>Menu for selecting one of three buzzer songs</li>
+                            <li>LED blink confirmation when a message is sent</li>
+                            <li>FreeRTOS tasks with scheduled delays and interrupt-driven buttons</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alt">
+            <div class="container">
+                <h2>Implementation details</h2>
+                <p>
+                    The application uses a small state machine with states for reading input, preparing and sending
+                    messages, processing USB commands, navigating the menu, and playing songs. This makes it clear which
+                    task should act at any given time and prevents button or serial input from interfering with ongoing
+                    playback.
+                </p>
+
+                <br>
+                <div>
+                    <h3>Concurrency</h3>
+                    <p>
+                        Five FreeRTOS tasks run concurrently: one reads IMU data and updates orientation, one handles
+                        button presses and Morse entry, one sends completed messages over USB, one receives and processes
+                        serial commands, and one updates the menu display. Button events are captured through GPIO edge
+                        interrupts and consumed by the button task.
+                    </p>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Morse decoding</h3>
+                    <p>
+                        Dots and dashes are stored in a message buffer. At translation time, the decoder traverses a
+                        compact lookup structure: a dot moves to the left branch and a dash to the right branch, while a
+                        space emits the current character and resets traversal. This avoids storing a large dictionary of
+                        individual Morse codes.
+                    </p>
+                </div>
+
+                <br>
+
+                <div>
+                    <h3>Build environment</h3>
+                    <p>
+                        The project is built with CMake, the Raspberry Pi Pico SDK, and FreeRTOS Kernel 11.2.0. The
+                        repository also documents a complete Linux and VS Code development setup, including toolchain
+                        installation, USB device permissions, OpenOCD debugging support, and Pico extension configuration.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>What I learned</h2>
+                <p>
+                    This project gave hands-on experience with embedded C development on the Raspberry Pi Pico, FreeRTOS
+                    task creation and scheduling, interrupt-driven input, and coordinating shared state between
+                    concurrent tasks. It also involved integrating several hardware peripherals—I2C display, IMU, buzzer,
+                    LED, and buttons—into one responsive device, as well as collaborating on a shared codebase as part of
+                    coursework.
+                </p>
+            </div>
+        </section>
+
+        <!-- Links -->
+        <section class="section alt">
+            <div class="container">
+                <h2>Links and resources</h2>
+                <p>
+                    You can explore the firmware, build configuration, and development-environment documentation in the
+                    course project repository.
+                </p>
+                <br>
+                <a href="https://github.com/MatStar15/computer-systems-project" class="button" target="_blank"
+                    rel="noopener noreferrer">
+                    View code on GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Email: <a href="mailto:nawrotm@proton.me">nawrotm@proton.me</a></p>
+            <p>
+                GitHub: <a href="https://github.com/torwanat" target="_blank" rel="noopener noreferrer">
+                    github.com/torwanat
+                </a>
+            </p>
+            <p>
+                LinkedIn: <a href="https://linkedin.com/in/mnawrot" target="_blank" rel="noopener noreferrer">
+                    linkedin.com/in/mnawrot
+                </a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
